@@ -1,4 +1,4 @@
-#CVE-2017-12615
+#Uploading a War file and getting a pseudo-shell
 
 #Requirements: pip install bs4
 
