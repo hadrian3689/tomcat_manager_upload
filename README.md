@@ -14,7 +14,7 @@ Uploading a War file to the Tomcat Service and getting a pseudo-shell
 
 * Using python3
 ```
-python3 tomcatmgr.py -t http://tomcatsite.blah -u username -p password --version 9
+python3 tomcatmgr.py -t http://tomcatsite.blah/ -u username -p password --version 9
 ```
 
 ## Help
