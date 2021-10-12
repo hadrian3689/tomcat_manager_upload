@@ -102,4 +102,5 @@ def main():
 
     payload_w(url,path,user,password)
 
-main()
+if __name__ == "__main__":
+    main()
