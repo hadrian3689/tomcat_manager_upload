@@ -6,10 +6,6 @@ Tomcat WAR File Upload
 
 Uploading a War file to the Tomcat Service and getting a pseudo-shell
 
-### Dependencies
-
-* pip install bs4
-
 ### Executing program
 
 * Using python3
